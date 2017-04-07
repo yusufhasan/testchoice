@@ -18,6 +18,27 @@
 
 	<build>
 		<plugins>
+		<plugin> 
+		    	<groupId>org.mule.tools.maven</groupId> 
+		    	<artifactId>mule-maven-plugin</artifactId> 
+		    	<version>2.0</version>
+		    	<configuration>
+		    	<deploymentType>cloudhub</deploymentType> 
+		    	<muleVersion>3.8.2</muleVersion>
+		    	<username>tds-demo</username> 
+		    	<password>Mule1379</password>
+		    	<workerType>Micro</workerType> 
+		    	<redeploy>true</redeploy> 
+		    	<environment>Production</environment>
+		    	</configuration> 
+		    	<executions>
+		    		<execution>
+		     			<goals> 
+		        			<goal>deploy</goal>
+		      			</goals> 
+		     		</execution>
+		    	</executions> 
+		</plugin>
 			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-app-maven-plugin</artifactId>
