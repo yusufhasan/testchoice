@@ -13,6 +13,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
     <flow name="testchoiceFlow">
         <http:listener config-ref="HTTP_Listener_Configuration" path="/test/{parm}" doc:name="HTTP" allowedMethods="GET"/>
         <set-variable variableName="flightNumber" value="#[message.inboundProperties.'http.uri.params'.parm]" doc:name="Variable"/>
+        <logger message="Log data: #[flowVars.flightNumber]" level="INFO" doc:name="Logger"/>
         <choice doc:name="Choice">
             <when expression="#[flowVars.flightNumber == '----' || flowVars.flightNumber == '****']">
                 <logger level="INFO" doc:name="Logger" message="Empty flight number: #[flowVars.flightNumber]"/>
