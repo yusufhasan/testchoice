@@ -30,7 +30,7 @@
 					<password>Mule1379</password>
 					<workerType>Micro</workerType>
 					<redeploy>true</redeploy>
-					<environment>Sandbox</environment>
+					<environment>Production</environment>
 				</configuration>
 				<executions>
 					<execution>
