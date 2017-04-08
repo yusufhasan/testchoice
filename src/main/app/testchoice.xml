@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
 	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -8,55 +8,18 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
-http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
-    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8082" doc:name="HTTP Listener Configuration"/>
-    <db:mysql-config name="MySQL_Configuration" host="${db.host}" port="${db.port}" user="${db.user}" password="${db.password}" database="${db.database}" doc:name="MySQL Configuration"/>
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
     <flow name="testchoiceFlow">
         <http:listener config-ref="HTTP_Listener_Configuration" path="/test/{parm}" doc:name="HTTP" allowedMethods="GET"/>
-        <set-variable variableName="id" value="#[message.inboundProperties.'http.uri.params'.parm]" doc:name="Variable"/>
-        <logger message="Log data: #[flowVars.id]" level="INFO" doc:name="Logger"/>
-        <db:select config-ref="MySQL_Configuration" doc:name="Database">
-            <db:parameterized-query><![CDATA[SELECT  p.id, p.name, p.description, p.product_number, p.manufactured, p.colors, p.categories, p.stock, p.safety_stock_level, p.standard_cost, p.list_price, p.size, p.size_unit_measure_code, p.weight, p.weight_unit_measure_code, p.days_to_manufacture, p.images,  p.modified_date, p.created_date
-FROM product p where p.id =#[flowVars.id]]]></db:parameterized-query>
-        </db:select>
+        <set-variable variableName="flightNumber" value="#[message.inboundProperties.'http.uri.params'.parm]" doc:name="Variable"/>
+        <logger message="Log data: #[flowVars.flightNumber]" level="INFO" doc:name="Logger"/>
         <choice doc:name="Choice">
-            <when expression="#[flowVars.id == '' || flowVars.id == '----' || flowVars.id == '****']">
-                <logger message="Empty product id: #[flowVars.id]" level="INFO" doc:name="Logger"/>
-                <set-payload value="Empty product id: #[flowVars.id]" doc:name="Set Payload"/>
+            <when expression="#[flowVars.flightNumber == '----' || flowVars.flightNumber == '****']">
+                <logger level="INFO" doc:name="Logger" message="Empty flight number: #[flowVars.flightNumber]"/>
             </when>
             <otherwise>
-                <logger message="Populated product id: #[flowVars.id]" level="INFO" doc:name="Logger"/>
-                <dw:transform-message doc:name="Transform Message">
-                    <dw:set-payload><![CDATA[%dw 1.0
-%output application/json
-%var product = payload[0]
----
-{
-	id: product.id,
-	name: product.name,
-	description: product.description,
-	manufactured: product.manufactured,
-	productNumber: product.product_number,
-	colors: (product.colors default "") splitBy "," ,
-	categories:(product.categories default "") splitBy "," ,
-	safetyStockLevel: product.safety_socket_level,
-	standardCost: (product.standard_cost default "0.0") as :string {format: "##.##"} as :number,
-	listPrice: (product.list_price default "0.0") as :string {format: "##.##"} as :number,
-	stock: product.stock,
-	safetyStockLevel: product.safety_stock_level,
-	daysToManufacture: product.days_to_manufacture,
-	size: product.size,
-	sizeUnitMeasureCode: product.size_unit_measure_code,
-	weight: product.weight,
-	weightUnitMeasureCode: product.weight_unit_measure_code,
-	daysToManufacture: product.days_to_manufacture,
-	images: (product.images splitBy "," default null),
-	modifiedDate: (product.modified_date default "") as :date {format: "yyyy-MM-dd"},
-	createdDate: (product.created_date default "") as :date {format: "yyyy-MM-dd"}
-
-}]]></dw:set-payload>
-                </dw:transform-message>
+                <logger message="Populated flight number: #[flowVars.flightNumber]" level="INFO" doc:name="Logger"/>
             </otherwise>
         </choice>
     </flow>
