@@ -1,0 +1,28 @@
+{
+  "id": 2,
+  "name": "M-Shield Shirt Blue",
+  "description": "Be part of the Mule family",
+  "manufactured": true,
+  "productNumber": "UUID00000000000002",
+  "colors": [
+    "white"
+  ],
+  "categories": [
+    "tshirts"
+  ],
+  "safetyStockLevel": 50,
+  "standardCost": 30,
+  "listPrice": 19,
+  "stock": 100,
+  "daysToManufacture": 5,
+  "size": "100x50",
+  "sizeUnitMeasureCode": "inch",
+  "weight": 1,
+  "weightUnitMeasureCode": "gr",
+  "images": [
+    "http://cdn.shopify.com/s/files/1/1003/3202/products/M_light_bluye_compact.jpg",
+    "http://cdn.shopify.com/s/files/1/1003/3202/products/M_light_bluye.jpg"
+  ],
+  "modifiedDate": "2030-02-09",
+  "createdDate": "2030-02-09"
+}
