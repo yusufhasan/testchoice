@@ -26,7 +26,7 @@
 				<configuration>
 					<deploymentType>cloudhub</deploymentType>
 					<muleVersion>3.8.2</muleVersion>
-					<username>tds-demo</username>
+					<username>yusufhasan</username>
 					<password>Mule1379</password>
 					<workerType>Micro</workerType>
 					<redeploy>true</redeploy>
